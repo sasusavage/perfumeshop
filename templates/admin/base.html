@@ -36,6 +36,10 @@
                     class="admin-nav-link {% if request.endpoint == 'admin_products' %}active{% endif %}">
                     <span>🌸</span> Products
                 </a>
+                <a href="{{ url_for('admin_settings') }}"
+                    class="admin-nav-link {% if request.endpoint == 'admin_settings' %}active{% endif %}">
+                    <span>⚙️</span> Settings
+                </a>
             </nav>
 
             <div style="margin-top: auto; padding-top: var(--space-lg);">

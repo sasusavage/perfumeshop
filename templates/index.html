@@ -11,10 +11,9 @@ luxury scents that tell stories of earth, wind, and wild beauty.{% endblock %}
         <div class="hero-content">
             <div class="hero-text">
                 <p class="text-overline hero-overline">Artisanal Perfumery</p>
-                <h1 class="hero-title">Nature Distilled</h1>
+                <h1 class="hero-title">{{ site_settings.hero_title }}</h1>
                 <p class="hero-description">
-                    Each fragrance captures the essence of untouched landscapes —
-                    from sun-warmed forests to morning meadows touched by rain.
+                    {{ site_settings.hero_subtitle }}
                 </p>
                 <div class="hero-cta">
                     <a href="{{ url_for('shop') }}" class="btn btn-primary btn-lg">Explore Collection</a>
@@ -22,8 +21,7 @@ luxury scents that tell stories of earth, wind, and wild beauty.{% endblock %}
                 </div>
             </div>
             <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&h=700&fit=crop"
-                    alt="Luxury Perfume Bottle"
+                <img src="{{ site_settings.hero_image }}" alt="Luxury Perfume Bottle"
                     style="border-radius: 16px; box-shadow: 0 30px 60px rgba(44,40,37,0.15);">
                 <div class="hero-badge">
                     <p class="text-overline" style="margin-bottom: 4px;">Signature Scent</p>
@@ -59,22 +57,16 @@ luxury scents that tell stories of earth, wind, and wild beauty.{% endblock %}
     <div class="container">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: center;">
             <div>
-                <img src="https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?w=600&h=700&fit=crop"
-                    alt="Perfume crafting" style="width: 100%; border-radius: var(--radius-lg);">
+                <img src="{{ site_settings.story_image }}" alt="Perfume crafting"
+                    style="width: 100%; border-radius: var(--radius-lg);">
             </div>
             <div style="max-width: 500px;">
                 <p class="text-overline mb-sm">Our Philosophy</p>
-                <h2 style="margin-bottom: var(--space-md);">Crafted by Hand, Inspired by Earth</h2>
+                <h2 style="margin-bottom: var(--space-md);">{{ site_settings.story_title }}</h2>
                 <p style="color: var(--color-text-muted); margin-bottom: var(--space-md); line-height: 1.8;">
-                    At Maison Écorce, we believe perfume is more than scent — it's a journey.
-                    Our master perfumers travel to remote corners of the world, sourcing rare botanicals
-                    and ancient essences that can't be found elsewhere.
+                    {{ site_settings.story_content }}
                 </p>
-                <p style="color: var(--color-text-muted); margin-bottom: var(--space-lg); line-height: 1.8;">
-                    Each bottle takes months to create. From hand-harvested ingredients to small-batch
-                    distillation, we never compromise on quality. The result: fragrances that evolve
-                    beautifully on your skin, revealing new layers throughout the day.
-                </p>
+
                 <a href="#" class="btn btn-ghost">Learn More →</a>
             </div>
         </div>

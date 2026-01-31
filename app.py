@@ -8,7 +8,8 @@ import json
 import hashlib
 import hmac
 from config import Config
-from models import db, Perfume, Order
+from config import Config
+from models import db, Perfume, Order, SiteSettings
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -59,6 +60,19 @@ def admin_required(f):
             return redirect(url_for('admin_login'))
         return f(*args, **kwargs)
     return decorated_function
+
+
+# ============ CONTEXT PROCESSOR ============
+@app.context_processor
+def inject_settings():
+    settings = SiteSettings.query.first()
+    if not settings:
+        # Create default if avoids crashing on first run
+        settings = SiteSettings()
+        # We don't save it here to avoid race conditions/readonly DB issues, 
+        # but the object exists for variables.
+        # Ideally, it should be seeded.
+    return dict(site_settings=settings)
 
 
 # ============ PUBLIC ROUTES ============
@@ -334,6 +348,42 @@ def admin_orders():
 @admin_required
 def admin_products():
     return render_template('admin/products.html')
+
+
+@app.route('/admin/settings', methods=['GET', 'POST'])
+@admin_required
+def admin_settings():
+    settings = SiteSettings.query.first()
+    if not settings:
+        settings = SiteSettings()
+        db.session.add(settings)
+        db.session.commit()
+    
+    if request.method == 'POST':
+        # Process Text Fields
+        settings.shop_name = request.form.get('shop_name', settings.shop_name)
+        settings.hero_title = request.form.get('hero_title', settings.hero_title)
+        settings.hero_subtitle = request.form.get('hero_subtitle', settings.hero_subtitle)
+        settings.story_title = request.form.get('story_title', settings.story_title)
+        settings.story_content = request.form.get('story_content', settings.story_content)
+        
+        # Process Images
+        if 'hero_image' in request.files and request.files['hero_image'].filename != '':
+            hero_file = request.files['hero_image']
+            hero_url = save_uploaded_file(hero_file)
+            if hero_url:
+                settings.hero_image = hero_url
+                
+        if 'story_image' in request.files and request.files['story_image'].filename != '':
+            story_file = request.files['story_image']
+            story_url = save_uploaded_file(story_file)
+            if story_url:
+                settings.story_image = story_url
+        
+        db.session.commit()
+        return redirect(url_for('admin_settings'))
+        
+    return render_template('admin/settings.html', settings=settings)
 
 
 # ============ ADMIN API ROUTES ============

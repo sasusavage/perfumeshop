@@ -49,3 +49,32 @@ class Order(db.Model):
             'status': self.status,
             'created_at': self.created_at.isoformat() if self.created_at else None
         }
+
+class SiteSettings(db.Model):
+    __tablename__ = 'site_settings'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    
+    # Global
+    shop_name = db.Column(db.String(100), default="Maison Écorce")
+    
+    # Hero Section
+    hero_title = db.Column(db.String(200), default="Nature Distilled")
+    hero_subtitle = db.Column(db.String(300), default="Experience the raw elegance of botanical perfumery.")
+    hero_image = db.Column(db.String(500), default="https://images.unsplash.com/photo-1541643600914-78b084683601?w=1920&q=80")
+    
+    # About/Story Section
+    story_title = db.Column(db.String(200), default="Our Story")
+    story_content = db.Column(db.Text, default="Founded in Grasse, Maison Écorce represents the convergence of traditional craftsmanship and modern sustainability. We source our ingredients from ethically managed forests and gardens, ensuring that every bottle tells a story of the earth.")
+    story_image = db.Column(db.String(500), default="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=800&q=80")
+
+    def to_dict(self):
+        return {
+            'shop_name': self.shop_name,
+            'hero_title': self.hero_title,
+            'hero_subtitle': self.hero_subtitle,
+            'hero_image': self.hero_image,
+            'story_title': self.story_title,
+            'story_content': self.story_content,
+            'story_image': self.story_image
+        }

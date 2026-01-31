@@ -1,0 +1,89 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Site Settings | Admin{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <div class="admin-header-title">
+        <h1 class="text-serif">Site Settings</h1>
+        <p class="text-muted">Manage homepage content and branding</p>
+    </div>
+    <div class="admin-header-actions">
+        <button type="submit" form="settingsForm" class="btn btn-primary">
+            Save Changes
+        </button>
+    </div>
+</div>
+
+<div class="admin-content">
+    <form id="settingsForm" method="POST" enctype="multipart/form-data" style="max-width: 800px;">
+
+        <!-- Global Branding -->
+        <div class="dashboard-card" style="margin-bottom: var(--space-lg);">
+            <h2 class="text-serif" style="margin-bottom: var(--space-md); font-size: 1.5rem;">Global Branding</h2>
+
+            <div class="form-group">
+                <label for="shop_name" class="form-label">Shop Name</label>
+                <input type="text" class="form-input" id="shop_name" name="shop_name" value="{{ settings.shop_name }}"
+                    required>
+                <small class="text-muted">This appears in the browser tab and navigation bar.</small>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="dashboard-card" style="margin-bottom: var(--space-lg);">
+            <h2 class="text-serif" style="margin-bottom: var(--space-md); font-size: 1.5rem;">Homepage Hero</h2>
+
+            <div class="form-group">
+                <label for="hero_title" class="form-label">Hero Title</label>
+                <input type="text" class="form-input" id="hero_title" name="hero_title"
+                    value="{{ settings.hero_title }}">
+            </div>
+
+            <div class="form-group">
+                <label for="hero_subtitle" class="form-label">Hero Subtitle</label>
+                <textarea class="form-input" id="hero_subtitle" name="hero_subtitle"
+                    rows="2">{{ settings.hero_subtitle }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Hero Image</label>
+                <div style="margin-bottom: var(--space-sm);">
+                    <img src="{{ settings.hero_image }}" alt="Current Hero"
+                        style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px;">
+                </div>
+                <input type="file" class="form-input" id="hero_image" name="hero_image" accept="image/*">
+                <small class="text-muted">Recommended size: 1920x1080px. Leave empty to keep current image.</small>
+            </div>
+        </div>
+
+        <!-- Story Section -->
+        <div class="dashboard-card">
+            <h2 class="text-serif" style="margin-bottom: var(--space-md); font-size: 1.5rem;">Brand Story</h2>
+
+            <div class="form-group">
+                <label for="story_title" class="form-label">Story Title</label>
+                <input type="text" class="form-input" id="story_title" name="story_title"
+                    value="{{ settings.story_title }}">
+            </div>
+
+            <div class="form-group">
+                <label for="story_content" class="form-label">Story Content</label>
+                <textarea class="form-input" id="story_content" name="story_content"
+                    rows="6">{{ settings.story_content }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Story Image</label>
+                <div style="margin-bottom: var(--space-sm);">
+                    <img src="{{ settings.story_image }}" alt="Current Story"
+                        style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px;">
+                </div>
+                <input type="file" class="form-input" id="story_image" name="story_image" accept="image/*">
+                <small class="text-muted">Recommended size: 800x1000px. Leave empty to keep current image.</small>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

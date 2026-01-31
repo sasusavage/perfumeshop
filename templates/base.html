@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="{% block meta_description %}Maison Écorce - Luxury artisanal perfumes crafted from nature's finest essences{% endblock %}">
-    <title>{% block title %}Maison Écorce{% endblock %}</title>
+        content="{% block meta_description %}{{ site_settings.shop_name }} - Luxury artisanal perfumes crafted from nature's finest essences{% endblock %}">
+    <title>{% block title %}{{ site_settings.shop_name }}{% endblock %}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@
     <header class="header" id="header">
         <div class="container">
             <nav class="nav">
-                <a href="{{ url_for('index') }}" class="nav-logo">Maison <span>Écorce</span></a>
+                <a href="{{ url_for('index') }}" class="nav-logo">{{ site_settings.shop_name }}</a>
 
                 <ul class="nav-links" id="navLinks">
                     <li><a href="{{ url_for('index') }}" class="nav-link">Home</a></li>
@@ -62,7 +62,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="footer-logo">Maison Écorce</div>
+                    <div class="footer-logo">{{ site_settings.shop_name }}</div>
                     <p class="footer-description">
                         Artisanal perfumes crafted from nature's finest essences.
                         Each scent tells a story of earth, wind, and wild beauty.
@@ -98,7 +98,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Maison Écorce. All rights reserved.</p>
+                <p>&copy; 2026 {{ site_settings.shop_name }}. All rights reserved.</p>
                 <p>Crafted with care for nature and you.</p>
             </div>
         </div>
