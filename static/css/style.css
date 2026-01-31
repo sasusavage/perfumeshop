@@ -758,6 +758,7 @@ h4 {
     border-right: 1px solid var(--color-border);
     font-size: 1rem;
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .quantity-input::-webkit-outer-spin-button,
