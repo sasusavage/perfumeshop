@@ -45,7 +45,24 @@ def save_uploaded_file(file):
         # In production this might need to be served via nginx or a dedicated route
         # For this setup we use Flask static serving
         return f"/static/uploads/{unique_filename}"
+
     return None
+
+def delete_old_file(file_url):
+    if not file_url:
+        return
+    
+    # Check if it's a local static file
+    if file_url.startswith('/static/uploads/'):
+        filename = file_url.replace('/static/uploads/', '')
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        
+        try:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                print(f"Deleted old file: {file_path}")
+        except Exception as e:
+            print(f"Error deleting file {file_path}: {e}")
 
 # Create tables on first request
 with app.app_context():
@@ -379,12 +396,14 @@ def admin_settings():
             hero_file = request.files['hero_image']
             hero_url = save_uploaded_file(hero_file)
             if hero_url:
+                delete_old_file(settings.hero_image)
                 settings.hero_image = hero_url
                 
         if 'story_image' in request.files and request.files['story_image'].filename != '':
             story_file = request.files['story_image']
             story_url = save_uploaded_file(story_file)
             if story_url:
+                delete_old_file(settings.story_image)
                 settings.story_image = story_url
         
         db.session.commit()
@@ -464,7 +483,8 @@ def update_perfume(perfume_id):
         image_url = save_uploaded_file(file)
         
         if image_url:
-            # Optional: Delete old file here if it exists and is local
+            # Delete old file here if it exists and is local
+            delete_old_file(perfume.cloudinary_url)
             perfume.cloudinary_url = image_url
         else:
              return jsonify({'error': 'Invalid file type'}), 400
@@ -492,6 +512,8 @@ def delete_perfume(perfume_id):
     perfume = Perfume.query.get_or_404(perfume_id)
     db.session.delete(perfume)
     db.session.commit()
+    # Delete image file
+    delete_old_file(perfume.cloudinary_url)
     return jsonify({'message': 'Perfume deleted'})
 
 
