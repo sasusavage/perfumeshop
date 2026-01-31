@@ -498,8 +498,8 @@ def delete_perfume(perfume_id):
 @app.route('/api/admin/stats', methods=['GET'])
 @admin_required
 def get_admin_stats():
-    total_orders = Order.query.filter_by(status='confirmed').count()
-    total_revenue = db.session.query(db.func.sum(Order.total_price)).filter_by(status='confirmed').scalar() or 0
+    total_orders = Order.query.count()
+    total_revenue = db.session.query(db.func.sum(Order.total_price)).scalar() or 0
     total_products = Perfume.query.count()
     
     return jsonify({
