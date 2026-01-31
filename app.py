@@ -365,6 +365,10 @@ def admin_settings():
         settings.shop_name = request.form.get('shop_name', settings.shop_name)
         settings.hero_title = request.form.get('hero_title', settings.hero_title)
         settings.hero_subtitle = request.form.get('hero_subtitle', settings.hero_subtitle)
+        settings.hero_overline = request.form.get('hero_overline', settings.hero_overline)
+        settings.hero_badge_overline = request.form.get('hero_badge_overline', settings.hero_badge_overline)
+        settings.hero_badge_text = request.form.get('hero_badge_text', settings.hero_badge_text)
+        
         settings.story_title = request.form.get('story_title', settings.story_title)
         settings.story_content = request.form.get('story_content', settings.story_content)
         settings.newsletter_title = request.form.get('newsletter_title', settings.newsletter_title)

@@ -41,9 +41,28 @@
             </div>
 
             <div class="form-group">
+                <label for="hero_overline" class="form-label">Hero Small Text (Top)</label>
+                <input type="text" class="form-input" id="hero_overline" name="hero_overline"
+                    value="{{ settings.hero_overline }}">
+            </div>
+
+            <div class="form-group">
                 <label for="hero_subtitle" class="form-label">Hero Subtitle</label>
                 <textarea class="form-input" id="hero_subtitle" name="hero_subtitle"
                     rows="2">{{ settings.hero_subtitle }}</textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="hero_badge_overline" class="form-label">Badge Top Text</label>
+                    <input type="text" class="form-input" id="hero_badge_overline" name="hero_badge_overline"
+                        value="{{ settings.hero_badge_overline }}" placeholder="Signature Scent">
+                </div>
+                <div class="form-group">
+                    <label for="hero_badge_text" class="form-label">Badge Main Text</label>
+                    <input type="text" class="form-input" id="hero_badge_text" name="hero_badge_text"
+                        value="{{ settings.hero_badge_text }}" placeholder="Perfume Name">
+                </div>
             </div>
 
             <div class="form-group">

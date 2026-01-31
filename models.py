@@ -63,7 +63,10 @@ class SiteSettings(db.Model):
     # Hero Section
     hero_title = db.Column(db.String(200), default="Nature Distilled")
     hero_subtitle = db.Column(db.String(300), default="Experience the raw elegance of botanical perfumery.")
+    hero_overline = db.Column(db.String(100), default="Artisanal Perfumery")
     hero_image = db.Column(db.String(500), default="https://images.unsplash.com/photo-1541643600914-78b084683601?w=1920&q=80")
+    hero_badge_overline = db.Column(db.String(100), default="Signature Scent")
+    hero_badge_text = db.Column(db.String(100), default="Ébène Sauvage")
     
     # About/Story Section
     story_title = db.Column(db.String(200), default="Our Story")

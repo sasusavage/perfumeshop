@@ -10,7 +10,7 @@ luxury scents that tell stories of earth, wind, and wild beauty.{% endblock %}
     <div class="container">
         <div class="hero-content">
             <div class="hero-text">
-                <p class="text-overline hero-overline">Artisanal Perfumery</p>
+                <p class="text-overline hero-overline">{{ site_settings.hero_overline }}</p>
                 <h1 class="hero-title">{{ site_settings.hero_title }}</h1>
                 <p class="hero-description">
                     {{ site_settings.hero_subtitle }}
@@ -24,8 +24,9 @@ luxury scents that tell stories of earth, wind, and wild beauty.{% endblock %}
                 <img src="{{ site_settings.hero_image }}" alt="Luxury Perfume Bottle"
                     style="border-radius: 16px; box-shadow: 0 30px 60px rgba(44,40,37,0.15);">
                 <div class="hero-badge">
-                    <p class="text-overline" style="margin-bottom: 4px;">Signature Scent</p>
-                    <p style="font-family: var(--font-serif); font-size: 1.125rem;">Ébène Sauvage</p>
+                    <p class="text-overline" style="margin-bottom: 4px;">{{ site_settings.hero_badge_overline }}</p>
+                    <p style="font-family: var(--font-serif); font-size: 1.125rem;">{{ site_settings.hero_badge_text }}
+                    </p>
                 </div>
             </div>
         </div>
