@@ -20,7 +20,7 @@
                 <h3 class="cart-summary-title">Order Summary</h3>
                 <div class="cart-summary-row">
                     <span>Subtotal</span>
-                    <span id="subtotal">₦0</span>
+                    <span id="subtotal">GHS0</span>
                 </div>
                 <div class="cart-summary-row">
                     <span>Shipping</span>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="cart-summary-row total">
                     <span>Total</span>
-                    <span class="value" id="total">₦0</span>
+                    <span class="value" id="cartTotalDisplay">GHS0</span>
                 </div>
                 <a href="/checkout" class="btn btn-primary btn-lg cart-summary-btn" id="checkoutBtn">
                     Proceed to Checkout
@@ -83,7 +83,7 @@
                 </div>
                 <div class="cart-item-info">
                     <h4 class="cart-item-name">${item.name}</h4>
-                    <p class="cart-item-price">₦${item.price.toLocaleString()}</p>
+                    <p class="cart-item-price">GHS${item.price.toLocaleString()}</p>
                     <div class="quantity-selector" style="margin-top: var(--space-sm);">
                         <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">−</button>
                         <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="10" 
@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="cart-item-actions">
-                    <span class="cart-item-total">₦${(item.price * item.quantity).toLocaleString()}</span>
+                    <span class="cart-item-total">GHS${(item.price * item.quantity).toLocaleString()}</span>
                     <button class="cart-item-remove" onclick="removeItem(${item.id})">Remove</button>
                 </div>
             </div>
@@ -110,9 +110,9 @@
         const shipping = subtotal > 50000 ? 0 : 3000;
         const total = subtotal + shipping;
 
-        document.getElementById('subtotal').textContent = `₦${subtotal.toLocaleString()}`;
-        document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `₦${shipping.toLocaleString()}`;
-        document.getElementById('total').textContent = `₦${total.toLocaleString()}`;
+        document.getElementById('subtotal').textContent = `GHS${subtotal.toLocaleString()}`;
+        document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `GHS${shipping.toLocaleString()}`;
+        document.getElementById('cartTotalDisplay').textContent = `GHS${total.toLocaleString()}`;
 
         document.getElementById('checkoutBtn').style.pointerEvents = cart.length === 0 ? 'none' : 'auto';
         document.getElementById('checkoutBtn').style.opacity = cart.length === 0 ? '0.5' : '1';

@@ -203,6 +203,7 @@ def initialize_payment():
         'email': data['customer_info']['email'],
         'amount': int(total * 100),  # Paystack uses kobo (cents)
         'callback_url': request.host_url.rstrip('/') + '/payment/callback',
+        'currency': 'GHS',
         'metadata': {
             'customer_info': data['customer_info'],
             'items': cart

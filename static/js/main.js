@@ -91,10 +91,10 @@ function serializeForm(form) {
 
 // ============ Currency Formatting ============
 /**
- * Format number as Nigerian Naira
+ * Format number as Ghanaian Cedi
  */
 function formatCurrency(amount) {
-    return `₦${Number(amount).toLocaleString()}`;
+    return `GHS ${Number(amount).toLocaleString()}`;
 }
 
 

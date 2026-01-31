@@ -69,15 +69,15 @@
 
                 <div class="cart-summary-row">
                     <span>Subtotal</span>
-                    <span id="subtotal">₦0</span>
+                    <span id="subtotal">GHS0</span>
                 </div>
                 <div class="cart-summary-row">
                     <span>Shipping</span>
-                    <span id="shipping">₦0</span>
+                    <span id="shipping">GHS0</span>
                 </div>
                 <div class="cart-summary-row total">
                     <span>Total</span>
-                    <span class="value" id="total">₦0</span>
+                    <span class="value" id="total">GHS0</span>
                 </div>
             </aside>
         </div>
@@ -127,7 +127,7 @@
                     <p class="checkout-item-name">${item.name}</p>
                     <p class="checkout-item-qty">Qty: ${item.quantity}</p>
                 </div>
-                <p class="checkout-item-price">₦${(item.price * item.quantity).toLocaleString()}</p>
+                <p class="checkout-item-price">GHS ${(item.price * item.quantity).toLocaleString()}</p>
             </div>
         `).join('');
 
@@ -135,9 +135,9 @@
             const shipping = subtotal > 50000 ? 0 : 3000;
             cartTotal = subtotal + shipping;
 
-            document.getElementById('subtotal').textContent = `₦${subtotal.toLocaleString()}`;
-            document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `₦${shipping.toLocaleString()}`;
-            document.getElementById('total').textContent = `₦${cartTotal.toLocaleString()}`;
+            document.getElementById('subtotal').textContent = `GHS ${subtotal.toLocaleString()}`;
+            document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `GHS ${shipping.toLocaleString()}`;
+            document.getElementById('total').textContent = `GHS ${cartTotal.toLocaleString()}`;
 
         } catch (error) {
             itemsContainer.innerHTML = `<p class="text-muted">Unable to load cart.</p>`;

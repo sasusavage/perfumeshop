@@ -58,12 +58,12 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="price">Price (₦)</label>
+                        <label class="form-label" for="price">Price (GHS)</label>
                         <input type="number" class="form-input" id="price" name="price" required min="0" step="100"
                             placeholder="Sale Price">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="compare_at_price">Original Price (₦)</label>
+                        <label class="form-label" for="compare_at_price">Original Price (GHS)</label>
                         <input type="number" class="form-input" id="compare_at_price" name="compare_at_price" min="0"
                             step="100" placeholder="Optional">
                     </div>
@@ -159,7 +159,7 @@
                 </td>
                 <td><small>${product.notes || '-'}</small></td>
                 <td>${product.size}</td>
-                <td><strong>₦${product.price.toLocaleString()}</strong></td>
+                <td><strong>GHS ${product.price.toLocaleString()}</strong></td>
                 <td>
                     <button class="btn btn-ghost btn-sm" onclick='openEditModal(${JSON.stringify(product)})'>
                         Edit

@@ -46,9 +46,9 @@
                 <h1 class="product-info-name">${product.name}</h1>
                 <p class="product-info-price">
                     ${product.compare_at_price && product.compare_at_price > product.price
-                    ? `<span style="text-decoration: line-through; color: #999; margin-right: 10px; font-size: 0.9em;">₦${product.compare_at_price.toLocaleString()}</span>`
+                    ? `<span style="text-decoration: line-through; color: #999; margin-right: 10px; font-size: 0.9em;">GHS ${product.compare_at_price.toLocaleString()}</span>`
                     : ''}
-                    ₦${product.price.toLocaleString()}
+                    GHS ${product.price.toLocaleString()}
                 </p>
                 
                 <p class="product-info-description">${product.description}</p>
@@ -77,7 +77,7 @@
                 
                 <div style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border);">
                     <p style="font-size: 0.875rem; color: var(--color-text-muted);">
-                        <strong>Free Shipping</strong> on orders over ₦50,000<br>
+                        <strong>Free Shipping</strong> on orders over GHS 50,000<br>
                         <strong>Complimentary Gift Wrapping</strong> available at checkout
                     </p>
                 </div>

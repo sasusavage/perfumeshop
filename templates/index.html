@@ -153,9 +153,9 @@ luxury scents that tell stories of earth, wind, and wild beauty.{% endblock %}
                     <div class="product-card-footer">
                         <span class="product-card-price">
                             ${product.compare_at_price && product.compare_at_price > product.price
-                    ? `<span style="text-decoration: line-through; color: #999; margin-right: 5px; font-size: 0.9em;">₦${product.compare_at_price.toLocaleString()}</span>`
+                    ? `<span style="text-decoration: line-through; color: #999; margin-right: 5px; font-size: 0.9em;">GHS ${product.compare_at_price.toLocaleString()}</span>`
                     : ''}
-                            ₦${product.price.toLocaleString()}
+                            GHS ${product.price.toLocaleString()}
                         </span>
                         <span class="product-card-size">${product.size}</span>
                     </div>

@@ -63,7 +63,7 @@
             const stats = await response.json();
 
             document.getElementById('totalOrders').textContent = stats.total_orders;
-            document.getElementById('totalRevenue').textContent = `₦${stats.total_revenue.toLocaleString()}`;
+            document.getElementById('totalRevenue').textContent = `GHS ${stats.total_revenue.toLocaleString()}`;
             document.getElementById('totalProducts').textContent = stats.total_products;
         } catch (error) {
             console.error('Failed to load stats:', error);
@@ -99,7 +99,7 @@
                     <small style="color: var(--color-text-muted);">${order.customer_info.email}</small>
                 </td>
                 <td>${order.items.length} item${order.items.length > 1 ? 's' : ''}</td>
-                <td><strong>₦${order.total_price.toLocaleString()}</strong></td>
+                <td><strong>GHS ${order.total_price.toLocaleString()}</strong></td>
                 <td>${new Date(order.created_at).toLocaleDateString()}</td>
                 <td><span class="status-badge ${order.status}">${order.status}</span></td>
             </tr>

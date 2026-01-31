@@ -110,7 +110,7 @@
                     <td style="max-width: 200px;">
                         <small>${products}</small>
                     </td>
-                    <td><strong>₦${order.total_price.toLocaleString()}</strong></td>
+                    <td><strong>GHS ${order.total_price.toLocaleString()}</strong></td>
                     <td>${new Date(order.created_at).toLocaleDateString()}</td>
                     <td><span class="status-badge ${order.status}">${order.status}</span></td>
                     <td>
@@ -164,12 +164,12 @@
             ${order.items.map(item => `
                 <div style="display: flex; justify-content: space-between; padding: var(--space-sm) 0; border-bottom: 1px solid var(--color-border);">
                     <span>${item.name} × ${item.quantity}</span>
-                    <span>₦${(item.price * item.quantity).toLocaleString()}</span>
+                    <span>GHS ${(item.price * item.quantity).toLocaleString()}</span>
                 </div>
             `).join('')}
             <div style="display: flex; justify-content: space-between; padding: var(--space-sm) 0; font-weight: 600;">
                 <span>Total</span>
-                <span>₦${order.total_price.toLocaleString()}</span>
+                <span>GHS ${order.total_price.toLocaleString()}</span>
             </div>
         </div>
         
