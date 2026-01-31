@@ -427,11 +427,16 @@ def add_perfume():
     if not image_url:
         return jsonify({'error': 'Invalid file type or upload failed'}), 400
     
+    price = float(request.form['price'])
+    compare_at_price_val = request.form.get('compare_at_price')
+    compare_at_price = float(compare_at_price_val) if compare_at_price_val else None
+
     # Create perfume record
     perfume = Perfume(
         name=request.form['name'],
         description=request.form['description'],
-        price=float(request.form['price']),
+        price=price,
+        compare_at_price=compare_at_price,
         cloudinary_url=image_url,  # We keep the column name for compatibility but store local path
         size=request.form.get('size', '50ml'),
         notes=request.form.get('notes', '')
@@ -462,6 +467,13 @@ def update_perfume(perfume_id):
     perfume.name = request.form.get('name', perfume.name)
     perfume.description = request.form.get('description', perfume.description)
     perfume.price = float(request.form.get('price', perfume.price))
+    
+    compare_at_val = request.form.get('compare_at_price')
+    if compare_at_val == '':
+        perfume.compare_at_price = None
+    elif compare_at_val:
+        perfume.compare_at_price = float(compare_at_val)
+        
     perfume.size = request.form.get('size', perfume.size)
     perfume.notes = request.form.get('notes', perfume.notes)
     

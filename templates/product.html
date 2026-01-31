@@ -44,7 +44,12 @@
             <div class="product-info">
                 <p class="text-overline product-info-overline">${product.size} · Eau de Parfum</p>
                 <h1 class="product-info-name">${product.name}</h1>
-                <p class="product-info-price">₦${product.price.toLocaleString()}</p>
+                <p class="product-info-price">
+                    ${product.compare_at_price && product.compare_at_price > product.price
+                    ? `<span style="text-decoration: line-through; color: #999; margin-right: 10px; font-size: 0.9em;">₦${product.compare_at_price.toLocaleString()}</span>`
+                    : ''}
+                    ₦${product.price.toLocaleString()}
+                </p>
                 
                 <p class="product-info-description">${product.description}</p>
                 

@@ -66,7 +66,12 @@ rare ingredients from nature's finest sources.{% endblock %}
                     <h3 class="product-card-name">${product.name}</h3>
                     <p class="product-card-notes">${product.notes || 'A sophisticated blend'}</p>
                     <div class="product-card-footer">
-                        <span class="product-card-price">₦${product.price.toLocaleString()}</span>
+                        <span class="product-card-price">
+                            ${product.compare_at_price && product.compare_at_price > product.price
+                    ? `<span style="text-decoration: line-through; color: #999; margin-right: 5px; font-size: 0.9em;">₦${product.compare_at_price.toLocaleString()}</span>`
+                    : ''}
+                            ₦${product.price.toLocaleString()}
+                        </span>
                         <span class="product-card-size">${product.size}</span>
                     </div>
                 </div>

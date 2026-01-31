@@ -10,6 +10,7 @@ class Perfume(db.Model):
     name = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
     price = db.Column(db.Float, nullable=False)
+    compare_at_price = db.Column(db.Float, nullable=True)  # Original price for discounts
     cloudinary_url = db.Column(db.String(500), nullable=False)
     size = db.Column(db.String(50), default='50ml')
     notes = db.Column(db.String(300))  # e.g., "Rose, Oud, Sandalwood"
@@ -21,6 +22,7 @@ class Perfume(db.Model):
             'name': self.name,
             'description': self.description,
             'price': self.price,
+            'compare_at_price': self.compare_at_price,
             'cloudinary_url': self.cloudinary_url,
             'size': self.size,
             'notes': self.notes,
