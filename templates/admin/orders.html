@@ -1,0 +1,213 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1 class="admin-title">Orders</h1>
+    <div style="display: flex; gap: var(--space-sm);">
+        <select id="statusFilter" class="form-input" style="width: auto;">
+            <option value="confirmed">Confirmed</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="all">All Orders</option>
+        </select>
+    </div>
+</div>
+
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Delivery Address</th>
+                <th>Products</th>
+                <th>Total</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="ordersTable">
+            <tr>
+                <td colspan="8" style="text-align: center; padding: var(--space-lg);">
+                    <div class="spinner" style="margin: 0 auto;"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal-overlay" id="orderModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Order Details</h3>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="orderModalBody">
+            <!-- Content loaded dynamically -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        loadOrders();
+
+        document.getElementById('statusFilter').addEventListener('change', function () {
+            loadOrders();
+        });
+    });
+
+    async function loadOrders() {
+        const tbody = document.getElementById('ordersTable');
+        const status = document.getElementById('statusFilter').value;
+
+        tbody.innerHTML = `
+        <tr>
+            <td colspan="8" style="text-align: center; padding: var(--space-lg);">
+                <div class="spinner" style="margin: 0 auto;"></div>
+            </td>
+        </tr>
+    `;
+
+        try {
+            const response = await fetch(`/api/admin/orders?status=${status}`);
+            const orders = await response.json();
+
+            if (orders.length === 0) {
+                tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: var(--space-lg); color: var(--color-text-muted);">
+                        No ${status === 'all' ? '' : status} orders found
+                    </td>
+                </tr>
+            `;
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => {
+                const customer = order.customer_info;
+                const address = `${customer.address}, ${customer.city}, ${customer.state}`;
+                const products = order.items.map(i => `${i.name} (×${i.quantity})`).join(', ');
+
+                return `
+                <tr>
+                    <td><strong>#${order.id}</strong></td>
+                    <td>
+                        <div style="font-weight: 500;">${customer.name || customer.firstName + ' ' + customer.lastName}</div>
+                        <small style="color: var(--color-text-muted);">${customer.email}</small>
+                        <br>
+                        <small style="color: var(--color-text-muted);">${customer.phone || '-'}</small>
+                    </td>
+                    <td style="max-width: 200px;">
+                        <small>${address}</small>
+                    </td>
+                    <td style="max-width: 200px;">
+                        <small>${products}</small>
+                    </td>
+                    <td><strong>₦${order.total_price.toLocaleString()}</strong></td>
+                    <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                    <td><span class="status-badge ${order.status}">${order.status}</span></td>
+                    <td>
+                        <button class="btn btn-ghost btn-sm" onclick="viewOrder(${JSON.stringify(order).replace(/"/g, '&quot;')})">
+                            View
+                        </button>
+                        <select class="form-input" style="width: auto; font-size: 0.75rem; padding: 0.5rem;" 
+                                onchange="updateStatus(${order.id}, this.value)">
+                            <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                            <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                        </select>
+                    </td>
+                </tr>
+            `;
+            }).join('');
+
+        } catch (error) {
+            tbody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align: center; padding: var(--space-lg); color: var(--color-text-muted);">
+                    Failed to load orders
+                </td>
+            </tr>
+        `;
+        }
+    }
+
+    function viewOrder(order) {
+        const modal = document.getElementById('orderModal');
+        const body = document.getElementById('orderModalBody');
+        const customer = order.customer_info;
+
+        body.innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+            <div>
+                <h4 style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: var(--space-xs);">Customer</h4>
+                <p style="font-weight: 500;">${customer.name || customer.firstName + ' ' + customer.lastName}</p>
+                <p>${customer.email}</p>
+                <p>${customer.phone || '-'}</p>
+            </div>
+            <div>
+                <h4 style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: var(--space-xs);">Delivery Address</h4>
+                <p>${customer.address}</p>
+                <p>${customer.city}, ${customer.state}</p>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: var(--space-md);">
+            <h4 style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: var(--space-sm);">Products</h4>
+            ${order.items.map(item => `
+                <div style="display: flex; justify-content: space-between; padding: var(--space-sm) 0; border-bottom: 1px solid var(--color-border);">
+                    <span>${item.name} × ${item.quantity}</span>
+                    <span>₦${(item.price * item.quantity).toLocaleString()}</span>
+                </div>
+            `).join('')}
+            <div style="display: flex; justify-content: space-between; padding: var(--space-sm) 0; font-weight: 600;">
+                <span>Total</span>
+                <span>₦${order.total_price.toLocaleString()}</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: var(--space-sm); align-items: center;">
+            <span style="font-size: 0.75rem; color: var(--color-text-muted);">Payment Ref:</span>
+            <code style="background: var(--color-cream); padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); font-size: 0.75rem;">${order.payment_ref}</code>
+        </div>
+    `;
+
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('orderModal').classList.remove('active');
+    }
+
+    async function updateStatus(orderId, status) {
+        try {
+            const response = await fetch(`/api/admin/orders/${orderId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+
+            if (response.ok) {
+                showToast('Order status updated', 'success');
+                loadOrders();
+            } else {
+                throw new Error('Failed to update');
+            }
+        } catch (error) {
+            showToast('Failed to update status', 'error');
+        }
+    }
+
+    // Close modal on overlay click
+    document.getElementById('orderModal').addEventListener('click', function (e) {
+        if (e.target === this) closeModal();
+    });
+</script>
+{% endblock %}

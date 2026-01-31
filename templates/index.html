@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Maison Écorce | Nature Distilled{% endblock %}
+{% block meta_description %}Discover artisanal perfumes crafted from nature's finest essences. Maison Écorce brings you
+luxury scents that tell stories of earth, wind, and wild beauty.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <p class="text-overline hero-overline">Artisanal Perfumery</p>
+                <h1 class="hero-title">Nature Distilled</h1>
+                <p class="hero-description">
+                    Each fragrance captures the essence of untouched landscapes —
+                    from sun-warmed forests to morning meadows touched by rain.
+                </p>
+                <div class="hero-cta">
+                    <a href="{{ url_for('shop') }}" class="btn btn-primary btn-lg">Explore Collection</a>
+                    <a href="#story" class="btn btn-ghost">Our Story →</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&h=700&fit=crop"
+                    alt="Luxury Perfume Bottle"
+                    style="border-radius: 16px; box-shadow: 0 30px 60px rgba(44,40,37,0.15);">
+                <div class="hero-badge">
+                    <p class="text-overline" style="margin-bottom: 4px;">Signature Scent</p>
+                    <p style="font-family: var(--font-serif); font-size: 1.125rem;">Ébène Sauvage</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="section section-lg" style="background: var(--color-cream);">
+    <div class="container">
+        <div class="text-center mb-lg">
+            <p class="text-overline mb-sm">The Collection</p>
+            <h2>Signature Fragrances</h2>
+        </div>
+
+        <div class="products-grid" id="featuredProducts">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        <div class="text-center" style="margin-top: var(--space-lg);">
+            <a href="{{ url_for('shop') }}" class="btn btn-secondary">View All Perfumes</a>
+        </div>
+    </div>
+</section>
+
+<!-- Story Section -->
+<section class="section section-lg" id="story">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: center;">
+            <div>
+                <img src="https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?w=600&h=700&fit=crop"
+                    alt="Perfume crafting" style="width: 100%; border-radius: var(--radius-lg);">
+            </div>
+            <div style="max-width: 500px;">
+                <p class="text-overline mb-sm">Our Philosophy</p>
+                <h2 style="margin-bottom: var(--space-md);">Crafted by Hand, Inspired by Earth</h2>
+                <p style="color: var(--color-text-muted); margin-bottom: var(--space-md); line-height: 1.8;">
+                    At Maison Écorce, we believe perfume is more than scent — it's a journey.
+                    Our master perfumers travel to remote corners of the world, sourcing rare botanicals
+                    and ancient essences that can't be found elsewhere.
+                </p>
+                <p style="color: var(--color-text-muted); margin-bottom: var(--space-lg); line-height: 1.8;">
+                    Each bottle takes months to create. From hand-harvested ingredients to small-batch
+                    distillation, we never compromise on quality. The result: fragrances that evolve
+                    beautifully on your skin, revealing new layers throughout the day.
+                </p>
+                <a href="#" class="btn btn-ghost">Learn More →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="section" style="background: var(--color-charcoal); color: white;">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); text-align: center;">
+            <div style="padding: var(--space-md);">
+                <div style="font-size: 2.5rem; margin-bottom: var(--space-sm);">🌿</div>
+                <h4 style="margin-bottom: var(--space-sm);">Sustainable Sourcing</h4>
+                <p style="opacity: 0.7; font-size: 0.9375rem;">Ethically harvested ingredients from certified
+                    sustainable farms.</p>
+            </div>
+            <div style="padding: var(--space-md);">
+                <div style="font-size: 2.5rem; margin-bottom: var(--space-sm);">✨</div>
+                <h4 style="margin-bottom: var(--space-sm);">Small Batch</h4>
+                <p style="opacity: 0.7; font-size: 0.9375rem;">Each fragrance is crafted in limited quantities for
+                    exceptional quality.</p>
+            </div>
+            <div style="padding: var(--space-md);">
+                <div style="font-size: 2.5rem; margin-bottom: var(--space-sm);">🎁</div>
+                <h4 style="margin-bottom: var(--space-sm);">Luxury Packaging</h4>
+                <p style="opacity: 0.7; font-size: 0.9375rem;">Beautifully presented in recyclable, artisan-crafted
+                    boxes.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="section section-lg" id="contact" style="background: var(--color-sand);">
+    <div class="container container-narrow text-center">
+        <p class="text-overline mb-sm">Stay Connected</p>
+        <h2 style="margin-bottom: var(--space-sm);">Join Our World</h2>
+        <p
+            style="color: var(--color-text-muted); margin-bottom: var(--space-md); max-width: 400px; margin-left: auto; margin-right: auto;">
+            Be the first to discover new fragrances, exclusive offers, and the stories behind our scents.
+        </p>
+        <form style="display: flex; gap: var(--space-sm); max-width: 450px; margin: 0 auto;"
+            onsubmit="event.preventDefault(); showToast('Thank you for subscribing!', 'success');">
+            <input type="email" class="form-input" placeholder="Enter your email" required style="flex: 1;">
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        const container = document.getElementById('featuredProducts');
+
+        try {
+            const response = await fetch('/api/perfumes');
+            const perfumes = await response.json();
+
+            if (perfumes.length === 0) {
+                container.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);">
+                    <p class="text-muted">No perfumes available yet. Check back soon!</p>
+                </div>
+            `;
+                return;
+            }
+
+            // Show first 3 products
+            const featured = perfumes.slice(0, 3);
+            container.innerHTML = featured.map(product => `
+            <article class="product-card" onclick="window.location.href='/product/${product.id}'">
+                <div class="product-card-image">
+                    <img src="${product.cloudinary_url}" alt="${product.name}">
+                    <div class="product-card-overlay">
+                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <div class="product-card-content">
+                    <h3 class="product-card-name">${product.name}</h3>
+                    <p class="product-card-notes">${product.notes || 'A sophisticated blend'}</p>
+                    <div class="product-card-footer">
+                        <span class="product-card-price">₦${product.price.toLocaleString()}</span>
+                        <span class="product-card-size">${product.size}</span>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+        } catch (error) {
+            container.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);">
+                <p class="text-muted">Unable to load products. Please try again later.</p>
+            </div>
+        `;
+        }
+    });
+</script>
+{% endblock %}

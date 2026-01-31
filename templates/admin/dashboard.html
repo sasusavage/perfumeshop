@@ -1,0 +1,119 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1 class="admin-title">Dashboard</h1>
+</div>
+
+<div class="admin-stats" id="statsContainer">
+    <div class="admin-stat-card">
+        <p class="admin-stat-label">Total Orders</p>
+        <p class="admin-stat-value" id="totalOrders">-</p>
+    </div>
+    <div class="admin-stat-card">
+        <p class="admin-stat-label">Total Revenue</p>
+        <p class="admin-stat-value" id="totalRevenue">-</p>
+    </div>
+    <div class="admin-stat-card">
+        <p class="admin-stat-label">Products</p>
+        <p class="admin-stat-value" id="totalProducts">-</p>
+    </div>
+</div>
+
+<div class="admin-header" style="margin-top: var(--space-lg);">
+    <h2 style="font-family: var(--font-serif); font-size: 1.5rem;">Recent Orders</h2>
+    <a href="{{ url_for('admin_orders') }}" class="btn btn-ghost">View All →</a>
+</div>
+
+<div class="admin-table-container">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="recentOrders">
+            <tr>
+                <td colspan="6" style="text-align: center; padding: var(--space-lg);">
+                    <div class="spinner" style="margin: 0 auto;"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        loadStats();
+        loadRecentOrders();
+    });
+
+    async function loadStats() {
+        try {
+            const response = await fetch('/api/admin/stats');
+            const stats = await response.json();
+
+            document.getElementById('totalOrders').textContent = stats.total_orders;
+            document.getElementById('totalRevenue').textContent = `₦${stats.total_revenue.toLocaleString()}`;
+            document.getElementById('totalProducts').textContent = stats.total_products;
+        } catch (error) {
+            console.error('Failed to load stats:', error);
+        }
+    }
+
+    async function loadRecentOrders() {
+        const tbody = document.getElementById('recentOrders');
+
+        try {
+            const response = await fetch('/api/admin/orders?status=all');
+            const orders = await response.json();
+
+            if (orders.length === 0) {
+                tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: var(--space-lg); color: var(--color-text-muted);">
+                        No orders yet
+                    </td>
+                </tr>
+            `;
+                return;
+            }
+
+            // Show first 5 orders
+            const recent = orders.slice(0, 5);
+
+            tbody.innerHTML = recent.map(order => `
+            <tr>
+                <td><strong>#${order.id}</strong></td>
+                <td>
+                    <div>${order.customer_info.name || order.customer_info.firstName + ' ' + order.customer_info.lastName}</div>
+                    <small style="color: var(--color-text-muted);">${order.customer_info.email}</small>
+                </td>
+                <td>${order.items.length} item${order.items.length > 1 ? 's' : ''}</td>
+                <td><strong>₦${order.total_price.toLocaleString()}</strong></td>
+                <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                <td><span class="status-badge ${order.status}">${order.status}</span></td>
+            </tr>
+        `).join('');
+
+        } catch (error) {
+            tbody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; padding: var(--space-lg); color: var(--color-text-muted);">
+                    Failed to load orders
+                </td>
+            </tr>
+        `;
+        }
+    }
+</script>
+{% endblock %}

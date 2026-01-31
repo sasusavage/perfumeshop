@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{% if success %}Order Confirmed{% else %}Payment Failed{% endif %} | Maison Écorce{% endblock %}
+
+{% block content %}
+<section class="payment-result">
+    <div class="payment-result-card">
+        {% if success %}
+        <div class="payment-result-icon success">✓</div>
+        <h2 style="margin-bottom: var(--space-sm);">Thank You!</h2>
+        <p style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
+            Your order has been confirmed. We'll send a confirmation email with your order details shortly.
+        </p>
+        {% if reference %}
+        <div
+            style="background: var(--color-cream); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-sm); margin-bottom: var(--space-lg);">
+            <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 4px;">Order Reference</p>
+            <p style="font-family: monospace; font-weight: 600;">{{ reference }}</p>
+        </div>
+        {% endif %}
+        <a href="{{ url_for('shop') }}" class="btn btn-primary">Continue Shopping</a>
+        {% else %}
+        <div class="payment-result-icon error">✕</div>
+        <h2 style="margin-bottom: var(--space-sm);">Payment Failed</h2>
+        <p style="color: var(--color-text-muted); margin-bottom: var(--space-lg);">
+            {{ message or 'Something went wrong with your payment. Please try again.' }}
+        </p>
+        <div style="display: flex; gap: var(--space-sm); justify-content: center;">
+            <a href="{{ url_for('checkout') }}" class="btn btn-primary">Try Again</a>
+            <a href="{{ url_for('cart') }}" class="btn btn-secondary">Return to Cart</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Product | Maison Écorce{% endblock %}
+
+{% block content %}
+<section class="product-detail">
+    <div class="container">
+        <div class="product-detail-grid" id="productDetail">
+            <div class="loading" style="grid-column: 1 / -1; padding: var(--space-xxl);">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const productId = parseInt("{{ product_id }}");
+
+    document.addEventListener('DOMContentLoaded', async function () {
+        const container = document.getElementById('productDetail');
+
+        try {
+            const response = await fetch(`/api/perfumes/${productId}`);
+
+            if (!response.ok) {
+                throw new Error('Product not found');
+            }
+
+            const product = await response.json();
+
+            const notesHtml = product.notes
+                ? product.notes.split(',').map(note => `<span class="product-note-tag">${note.trim()}</span>`).join('')
+                : '<span class="product-note-tag">A sophisticated blend</span>';
+
+            container.innerHTML = `
+            <div class="product-gallery">
+                <div class="product-gallery-main">
+                    <img src="${product.cloudinary_url}" alt="${product.name}" id="mainImage">
+                </div>
+            </div>
+            
+            <div class="product-info">
+                <p class="text-overline product-info-overline">${product.size} · Eau de Parfum</p>
+                <h1 class="product-info-name">${product.name}</h1>
+                <p class="product-info-price">₦${product.price.toLocaleString()}</p>
+                
+                <p class="product-info-description">${product.description}</p>
+                
+                <div class="product-notes">
+                    <p class="product-notes-title">Scent Notes</p>
+                    <div class="product-notes-list">
+                        ${notesHtml}
+                    </div>
+                </div>
+                
+                <div class="product-quantity">
+                    <span style="font-weight: 500;">Quantity:</span>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn" onclick="changeQuantity(-1)">−</button>
+                        <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="10">
+                        <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                    </div>
+                </div>
+                
+                <div class="product-actions">
+                    <button class="btn btn-primary btn-lg" onclick="addProductToCart()">
+                        Add to Cart
+                    </button>
+                </div>
+                
+                <div style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-border);">
+                    <p style="font-size: 0.875rem; color: var(--color-text-muted);">
+                        <strong>Free Shipping</strong> on orders over ₦50,000<br>
+                        <strong>Complimentary Gift Wrapping</strong> available at checkout
+                    </p>
+                </div>
+            </div>
+        `;
+
+            // Store product data for cart
+            window.currentProduct = product;
+
+        } catch (error) {
+            console.error('Error loading product:', error);
+            container.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xxl);">
+                <h2>Product Not Found</h2>
+                <p class="text-muted" style="margin: var(--space-md) 0;">This fragrance may no longer be available.</p>
+                <a href="/shop" class="btn btn-primary">Browse Collection</a>
+            </div>
+        `;
+        }
+    });
+
+    function changeQuantity(delta) {
+        const input = document.getElementById('quantity');
+        let value = parseInt(input.value) + delta;
+        if (value < 1) value = 1;
+        if (value > 10) value = 10;
+        input.value = value;
+    }
+
+    async function addProductToCart() {
+        const product = window.currentProduct;
+        const quantity = parseInt(document.getElementById('quantity').value);
+
+        try {
+            const response = await fetch('/api/cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.cloudinary_url,
+                    quantity: quantity
+                })
+            });
+
+            const data = await response.json();
+            updateCartCount(data.cart.reduce((sum, item) => sum + item.quantity, 0));
+            showToast(`${product.name} added to cart`, 'success');
+        } catch (error) {
+            showToast('Failed to add item to cart', 'error');
+        }
+    }
+</script>
+{% endblock %}

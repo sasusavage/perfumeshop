@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Collection | Maison Écorce{% endblock %}
+{% block meta_description %}Explore our complete collection of luxury artisanal perfumes. Each fragrance is crafted with
+rare ingredients from nature's finest sources.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header" style="padding-top: 140px;">
+    <div class="container">
+        <p class="text-overline mb-sm">The Collection</p>
+        <h1 class="page-header-title">Our Fragrances</h1>
+        <p class="page-header-subtitle">
+            Each scent is a journey — an olfactory exploration of nature's most precious essences.
+        </p>
+    </div>
+</section>
+
+<!-- Products Grid -->
+<section class="section section-lg">
+    <div class="container">
+        <div class="products-grid" id="productsGrid">
+            <div class="loading" style="grid-column: 1 / -1;">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        <div id="emptyState" style="display: none; text-align: center; padding: var(--space-xxl) 0;">
+            <div style="font-size: 4rem; margin-bottom: var(--space-md); opacity: 0.3;">🌸</div>
+            <h3 style="margin-bottom: var(--space-sm);">Coming Soon</h3>
+            <p class="text-muted" style="max-width: 400px; margin: 0 auto;">
+                Our artisans are crafting new fragrances. Subscribe to be notified when they arrive.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        const grid = document.getElementById('productsGrid');
+        const emptyState = document.getElementById('emptyState');
+
+        try {
+            const response = await fetch('/api/perfumes');
+            const perfumes = await response.json();
+
+            if (perfumes.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            grid.innerHTML = perfumes.map(product => `
+            <article class="product-card" onclick="window.location.href='/product/${product.id}'">
+                <div class="product-card-image">
+                    <img src="${product.cloudinary_url}" alt="${product.name}">
+                    <div class="product-card-overlay">
+                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); quickAddToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.cloudinary_url}')">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <div class="product-card-content">
+                    <h3 class="product-card-name">${product.name}</h3>
+                    <p class="product-card-notes">${product.notes || 'A sophisticated blend'}</p>
+                    <div class="product-card-footer">
+                        <span class="product-card-price">₦${product.price.toLocaleString()}</span>
+                        <span class="product-card-size">${product.size}</span>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+        } catch (error) {
+            grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);">
+                <p class="text-muted">Unable to load products. Please refresh the page.</p>
+            </div>
+        `;
+        }
+    });
+
+    async function quickAddToCart(id, name, price, image) {
+        try {
+            const response = await fetch('/api/cart/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, name, price, image, quantity: 1 })
+            });
+
+            const data = await response.json();
+            updateCartCount(data.cart.reduce((sum, item) => sum + item.quantity, 0));
+            showToast(`${name} added to cart`, 'success');
+        } catch (error) {
+            showToast('Failed to add item to cart', 'error');
+        }
+    }
+</script>
+{% endblock %}
