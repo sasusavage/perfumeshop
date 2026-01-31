@@ -103,10 +103,10 @@ luxury scents that tell stories of earth, wind, and wild beauty.{% endblock %}
 <section class="section section-lg" id="contact" style="background: var(--color-sand);">
     <div class="container container-narrow text-center">
         <p class="text-overline mb-sm">Stay Connected</p>
-        <h2 style="margin-bottom: var(--space-sm);">Join Our World</h2>
+        <h2 style="margin-bottom: var(--space-sm);">{{ site_settings.newsletter_title }}</h2>
         <p
             style="color: var(--color-text-muted); margin-bottom: var(--space-md); max-width: 400px; margin-left: auto; margin-right: auto;">
-            Be the first to discover new fragrances, exclusive offers, and the stories behind our scents.
+            {{ site_settings.newsletter_subtitle }}
         </p>
         <form style="display: flex; gap: var(--space-sm); max-width: 450px; margin: 0 auto;"
             onsubmit="event.preventDefault(); showToast('Thank you for subscribing!', 'success');">

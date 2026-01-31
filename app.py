@@ -366,6 +366,8 @@ def admin_settings():
         settings.hero_subtitle = request.form.get('hero_subtitle', settings.hero_subtitle)
         settings.story_title = request.form.get('story_title', settings.story_title)
         settings.story_content = request.form.get('story_content', settings.story_content)
+        settings.newsletter_title = request.form.get('newsletter_title', settings.newsletter_title)
+        settings.newsletter_subtitle = request.form.get('newsletter_subtitle', settings.newsletter_subtitle)
         
         # Process Images
         if 'hero_image' in request.files and request.files['hero_image'].filename != '':

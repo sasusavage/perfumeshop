@@ -84,6 +84,23 @@
             </div>
         </div>
 
+        <!-- Newsletter Section -->
+        <div class="dashboard-card">
+            <h2 class="text-serif" style="margin-bottom: var(--space-md); font-size: 1.5rem;">Newsletter</h2>
+
+            <div class="form-group">
+                <label for="newsletter_title" class="form-label">Title</label>
+                <input type="text" class="form-input" id="newsletter_title" name="newsletter_title"
+                    value="{{ settings.newsletter_title }}">
+            </div>
+
+            <div class="form-group">
+                <label for="newsletter_subtitle" class="form-label">Subtitle</label>
+                <textarea class="form-input" id="newsletter_subtitle" name="newsletter_subtitle"
+                    rows="2">{{ settings.newsletter_subtitle }}</textarea>
+            </div>
+        </div>
+
     </form>
 </div>
 {% endblock %}

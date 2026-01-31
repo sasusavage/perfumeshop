@@ -67,6 +67,10 @@ class SiteSettings(db.Model):
     story_title = db.Column(db.String(200), default="Our Story")
     story_content = db.Column(db.Text, default="Founded in Grasse, Maison Écorce represents the convergence of traditional craftsmanship and modern sustainability. We source our ingredients from ethically managed forests and gardens, ensuring that every bottle tells a story of the earth.")
     story_image = db.Column(db.String(500), default="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=800&q=80")
+    
+    # Newsletter Section
+    newsletter_title = db.Column(db.String(200), default="Join Our World")
+    newsletter_subtitle = db.Column(db.String(300), default="Be the first to discover new fragrances, exclusive offers, and the stories behind our scents.")
 
     def to_dict(self):
         return {
@@ -76,5 +80,7 @@ class SiteSettings(db.Model):
             'hero_image': self.hero_image,
             'story_title': self.story_title,
             'story_content': self.story_content,
-            'story_image': self.story_image
+            'story_image': self.story_image,
+            'newsletter_title': self.newsletter_title,
+            'newsletter_subtitle': self.newsletter_subtitle
         }
