@@ -56,6 +56,9 @@ rare ingredients from nature's finest sources.{% endblock %}
             <article class="product-card" onclick="window.location.href='/product/${product.id}'">
                 <div class="product-card-image">
                     <img src="${product.cloudinary_url}" alt="${product.name}">
+                    ${product.compare_at_price && product.compare_at_price > product.price
+                    ? `<div class="product-badge sale">-${Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}%</div>`
+                    : ''}
                     <div class="product-card-overlay">
                         <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); quickAddToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.cloudinary_url}')">
                             Add to Cart

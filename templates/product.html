@@ -36,8 +36,11 @@
 
             container.innerHTML = `
             <div class="product-gallery">
-                <div class="product-gallery-main">
+                <div class="product-gallery-main" style="position: relative;">
                     <img src="${product.cloudinary_url}" alt="${product.name}" id="mainImage">
+                    ${product.compare_at_price && product.compare_at_price > product.price
+                    ? `<div class="product-badge sale">-${Math.round(((product.compare_at_price - product.price) / product.compare_at_price) * 100)}%</div>`
+                    : ''}
                 </div>
             </div>
             

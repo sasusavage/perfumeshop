@@ -583,6 +583,21 @@ h4 {
     opacity: 1;
 }
 
+.product-badge {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    background: #C4795B;
+    /* Terracotta */
+    color: white;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .product-card-content {
     padding: var(--space-md);
 }
