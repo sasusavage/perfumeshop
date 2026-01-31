@@ -61,6 +61,9 @@ SAMPLE_PERFUMES = [
 def seed_database():
     """Add sample perfumes to the database"""
     with app.app_context():
+        # Ensure tables exist
+        db.create_all()
+        
         # Check if products already exist
         existing = Perfume.query.first()
         if existing:
